@@ -59,6 +59,7 @@ class Cities extends Component {
     const date = dayjs().format("MM-DD-YY h:mma");
 
     if (data_metric && data_imperial) {
+      //
       let cities = [...this.state.cities];
       let city = { ...cities[0] };
       let city_ME = { ...cities[0].ME };
