@@ -8,20 +8,30 @@ class City extends Component {
     const { city } = this.props;
     const { IM, ME } = city;
 
-    const sunrise = dayjs(IM.sys.sunrise).format("h:mma");
-    const sunset = dayjs(IM.sys.sunset).format("h:mma");
+    const timezoneOffset = IM.timezone;
+
+    var utc = require("dayjs/plugin/utc");
+    dayjs.extend(utc);
+
+    const sunrise = dayjs
+      .utc((IM.sys.sunrise + timezoneOffset) * 1000)
+      .format("h:mma");
+
+    const sunset = dayjs
+      .utc((IM.sys.sunset + timezoneOffset) * 1000)
+      .format("h:mma");
+
     const iconURL = `http://openweathermap.org/img/w/${IM.weather[0].icon}.png`;
 
     return (
-      <div className="card bg-primary container" style={{ width: "40rem" }}>
+      <div
+        className="card bg-primary container"
+        style={({ width: "40rem" }, { margin: "2%" })}
+      >
         <div className="card-header">
           <h1 className="card-title text-left">{city.name}</h1>
           <div className="d-flex">
-            <img
-              src={iconURL}
-              className="img-fluid"
-              alt="Responsive image"
-            ></img>
+            <img src={iconURL} className="img-fluid" alt="Responsive"></img>
             <h2 className="card-text text-left">{IM.weather[0].description}</h2>
           </div>
 
